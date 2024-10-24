@@ -22,7 +22,6 @@ import Account from "./pages/user/Account";
 // Check Auth
 import CheckAuth from "./components/common/CheckAuth";
 
-
 function App() {
   const isAuthenticated = true;
   const user = {
