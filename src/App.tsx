@@ -23,7 +23,7 @@ import Account from "./pages/user/Account";
 import CheckAuth from "./components/common/CheckAuth";
 
 function App() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   const user = {
     name: "asad",
     role: "user",
