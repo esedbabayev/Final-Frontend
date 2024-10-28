@@ -15,6 +15,20 @@ export const signUpUser = createAsyncThunk(
   }
 );
 
+export const signInUser = createAsyncThunk(
+  "/auth/sign-in",
+
+  async (formData) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/auth/sign-in",
+      formData,
+      { withCredentials: true }
+    );
+
+    return response.data;
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -36,6 +50,19 @@ export const authSlice = createSlice({
         state.isAuthenticated = false;
       })
       .addCase(signUpUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+      })
+      .addCase(signInUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(signInUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.success ? action.payload.user : null;
+        state.isAuthenticated = action.payload.success;
+      })
+      .addCase(signInUser.rejected, (state, action) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
