@@ -25,6 +25,22 @@ export const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {},
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(signUpUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(signUpUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+      })
+      .addCase(signUpUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+      });
+  },
 });
 
 export const { setUser } = authSlice.actions;
