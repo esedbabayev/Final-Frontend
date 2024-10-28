@@ -28,13 +28,21 @@ import { useEffect } from "react";
 // Actions
 import { checkAuth } from "@/store/slices/auth-slice.js";
 
+// Loading Skeleton
+import { Skeleton } from "@/components/ui/skeleton";
+
 function App() {
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, isLoading } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
+
+  if (isLoading)
+    return <Skeleton className="w-full h-[600px]" />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
