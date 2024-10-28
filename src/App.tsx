@@ -22,10 +22,19 @@ import Account from "./pages/user/Account";
 // Check Auth
 import CheckAuth from "./components/common/CheckAuth";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
+// Actions
+import { checkAuth } from "@/store/slices/auth-slice.js";
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
