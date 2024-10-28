@@ -1,7 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import Form from "../../components/common/Form";
+import { Link, useNavigate } from "react-router-dom";
 import { signUpFormControls } from "../../config/index.js";
+import { useDispatch } from "react-redux";
+
+// Action
+import { signUpUser } from "../../store/slices/auth-slice.js";
+
+import Form from "../../components/common/Form";
+
+import { useToast } from "@/hooks/use-toast.js";
 
 const SignUp = () => {
   const initialState = {
@@ -12,10 +19,29 @@ const SignUp = () => {
 
   const [formData, setFormData] = useState(initialState);
 
-  const onSubmit = () => {};
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+    dispatch(signUpUser(formData)).then((data) => {
+      console.log(data);
+      if (data?.payload?.success) {
+        toast({
+          title: data?.payload?.message,
+        });
+        navigate("/auth/sign-in");
+      } else {
+        toast({
+          title: data?.payload?.message,
+          variant: "destructive",
+        });
+      }
+    });
+  };
 
   console.log(formData);
-  
 
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
