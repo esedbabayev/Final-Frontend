@@ -22,12 +22,10 @@ import Account from "./pages/user/Account";
 // Check Auth
 import CheckAuth from "./components/common/CheckAuth";
 
+import { useSelector } from "react-redux";
+
 function App() {
-  const isAuthenticated = false;
-  const user = {
-    name: "asad",
-    role: "user",
-  };
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
