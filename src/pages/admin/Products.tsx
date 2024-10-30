@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 // Components
 import { Button } from "@/components/ui/button";
 import {
@@ -8,13 +9,30 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import Form from "@/components/common/Form";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 import { productFormElements } from "@/config";
+
+const initialFormData = {
+  image: null,
+  title: "",
+  description: "",
+  category: "",
+  brand: "",
+  price: 0,
+  salePrice: "",
+  totalStock: "",
+};
 
 const Products = () => {
   const [openCreateProductView, setOpenCreateProductView] = useState(false);
 
-  const [formData, setFormData] = useState(initialFormData)
+  const [formData, setFormData] = useState(initialFormData);
+
+  const [image, setImage] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+
+  const onSubmit = () => {};
   return (
     <>
       <div className="mb-5 w-full flex justify-end">
@@ -31,13 +49,14 @@ const Products = () => {
           <SheetHeader>
             <SheetTitle>Add New Product</SheetTitle>
           </SheetHeader>
+          <ImageUpload />
           <div className="py-6">
             <Form
               formControls={productFormElements}
-              formData={}
-              setFormData={}
-              onSubmit={}
-              buttonText={}
+              formData={formData}
+              setFormData={setFormData}
+              onSubmit={onSubmit}
+              buttonText="Add"
             />
           </div>
         </SheetContent>
