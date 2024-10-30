@@ -49,7 +49,12 @@ const Products = () => {
           <SheetHeader>
             <SheetTitle>Add New Product</SheetTitle>
           </SheetHeader>
-          <ImageUpload />
+          <ImageUpload
+            image={image}
+            setImage={setImage}
+            uploadedImageUrl={uploadedImageUrl}
+            setUploadedImageUrl={setUploadedImageUrl}
+          />
           <div className="py-6">
             <Form
               formControls={productFormElements}
