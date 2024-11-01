@@ -73,7 +73,7 @@ const ImageUpload = ({
             >
               <XIcon className="w-4 h-4" />
               <span className="sr-only">Remove File</span>
-              commit
+              commit 2
             </Button>
           </div>
         )}
