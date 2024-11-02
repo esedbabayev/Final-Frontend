@@ -10,6 +10,7 @@ const ImageUpload = ({
   setImage,
   uploadedImageUrl,
   setUploadedImageUrl,
+  setImageLoadingState,
 }) => {
   const inputRef = useRef(null);
 
@@ -38,9 +39,10 @@ const ImageUpload = ({
     }
   };
 
-  console.log(image);
+  console.log(image, "image");
 
   const uploadImageToCloudinary = async () => {
+    setImageLoadingState(true);
     const data = new FormData();
     data.append("my_file", image);
 
@@ -50,7 +52,10 @@ const ImageUpload = ({
     );
     console.log(response, "response");
 
-    if (response?.data?.success) setUploadedImageUrl(response.data.result.url);
+    if (response?.data?.success) {
+      setUploadedImageUrl(response.data.result.url);
+      setImageLoadingState(false);
+    }
   };
 
   useEffect(() => {
