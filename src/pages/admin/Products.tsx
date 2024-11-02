@@ -32,7 +32,12 @@ const Products = () => {
   const [image, setImage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
+  const [imageLoadingState, setImageLoadingState] = useState(false)
+
   const onSubmit = () => {};
+
+  console.log(formData, "formData");
+  
   return (
     <>
       <div className="mb-5 w-full flex justify-end">
@@ -54,6 +59,7 @@ const Products = () => {
             setImage={setImage}
             uploadedImageUrl={uploadedImageUrl}
             setUploadedImageUrl={setUploadedImageUrl}
+            setImageLoadingState={setImageLoadingState}
           />
           <div className="py-6">
             <Form
