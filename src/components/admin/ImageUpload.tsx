@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import axios from "axios";
 
 const ImageUpload = ({
   image,
@@ -36,6 +37,26 @@ const ImageUpload = ({
       inputRef.current.value = "";
     }
   };
+
+  console.log(image);
+
+  const uploadImageToCloudinary = async () => {
+    const data = new FormData();
+    data.append("my_file", image);
+
+    const response = await axios.post(
+      "http://localhost:5000/api/admin/products/upload-image",
+      data
+    );
+    console.log(response, "response");
+
+    if (response?.data?.success) setUploadedImageUrl(response.data.result.url);
+  };
+
+  useEffect(() => {
+    if (image !== null) uploadImageToCloudinary();
+  }, [image]);
+
   return (
     <div className="w-full max-w-md mx-auto mt-4">
       <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
@@ -73,7 +94,6 @@ const ImageUpload = ({
             >
               <XIcon className="w-4 h-4" />
               <span className="sr-only">Remove File</span>
-              commit 2
             </Button>
           </div>
         )}
