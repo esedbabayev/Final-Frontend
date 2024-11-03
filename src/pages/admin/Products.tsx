@@ -59,6 +59,7 @@ const Products = () => {
             setImage={setImage}
             uploadedImageUrl={uploadedImageUrl}
             setUploadedImageUrl={setUploadedImageUrl}
+            imageLoadingState={imageLoadingState}
             setImageLoadingState={setImageLoadingState}
           />
           <div className="py-6">
