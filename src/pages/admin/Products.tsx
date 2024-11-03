@@ -1,4 +1,10 @@
-import { useState } from "react";
+//Hooks
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
+
+// Actions
+import { getAllProducts, addNewProuct } from "@/store/admin/products.slice.js";
 
 // Components
 import { Button } from "@/components/ui/button";
@@ -10,6 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import Form from "@/components/common/Form";
 import ImageUpload from "@/components/admin/ImageUpload";
+import AdminProducts from "@/components/admin/Products";
 
 import { productFormElements } from "@/config";
 
@@ -32,12 +39,37 @@ const Products = () => {
   const [image, setImage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
-  const [imageLoadingState, setImageLoadingState] = useState(false)
+  const [imageLoadingState, setImageLoadingState] = useState(false);
 
-  const onSubmit = () => {};
+  const { products } = useSelector((state) => state.adminProducts);
+  const dispatch = useDispatch();
 
-  console.log(formData, "formData");
-  
+  const { toast } = useToast();
+
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+    dispatch(addNewProuct({ ...formData, image: uploadedImageUrl })).then(
+      (data) => {
+        console.log(data);
+        if (data?.payload?.success) {
+          dispatch(getAllProducts());
+          setOpenCreateProductView(false);
+          setImage(null);
+          setFormData(initialFormData);
+          toast({
+            title: "Product added successfully",
+          });
+        }
+      }
+    );
+  };
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
+
+  console.log(products, uploadedImageUrl, "products");
+
   return (
     <>
       <div className="mb-5 w-full flex justify-end">
@@ -45,7 +77,11 @@ const Products = () => {
           Add New Product
         </Button>
       </div>
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4"></div>
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+        {products && products.length > 0
+          ? products.map((product) => <AdminProducts product={product} />)
+          : null}
+      </div>
       <Sheet
         open={openCreateProductView}
         onOpenChange={() => setOpenCreateProductView(false)}
