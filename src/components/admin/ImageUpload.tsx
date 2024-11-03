@@ -1,15 +1,21 @@
 import { useEffect, useRef } from "react";
+import axios from "axios";
+
+// Components
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import axios from "axios";
+import { Skeleton } from "../ui/skeleton";
+
+// Icons
+import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 
 const ImageUpload = ({
   image,
   setImage,
   uploadedImageUrl,
   setUploadedImageUrl,
+  imageLoadingState,
   setImageLoadingState,
 }) => {
   const inputRef = useRef(null);
@@ -85,6 +91,8 @@ const ImageUpload = ({
             <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
             <span>Drag & Drop or click to upload</span>
           </Label>
+        ) : imageLoadingState ? (
+          <Skeleton className="h-10 bg-gray-100" />
         ) : (
           <div className="flex items-center justify-between">
             <div className="flex items-center">
