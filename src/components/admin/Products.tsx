@@ -1,7 +1,13 @@
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 
-const AdminProducts = ({ product }) => {
+const AdminProducts = ({
+  product,
+  setCurrentEditedId,
+  setOpenCreateProductView,
+  setFormData,
+  deleteHandler,
+}) => {
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div>
@@ -30,8 +36,16 @@ const AdminProducts = ({ product }) => {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between items-center">
-          <Button>Edit</Button>
-          <Button>Delete</Button>
+          <Button
+            onClick={() => {
+              setOpenCreateProductView(true);
+              setCurrentEditedId(product?._id);
+              setFormData(product);
+            }}
+          >
+            Edit
+          </Button>
+          <Button onClick={() => deleteHandler(product?._id)}>Delete</Button>
         </CardFooter>
       </div>
     </Card>
