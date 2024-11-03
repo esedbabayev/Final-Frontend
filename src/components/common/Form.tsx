@@ -26,6 +26,7 @@ const Form: React.FC<IProps> = ({
   setFormData,
   onSubmit,
   buttonText,
+  isBtnDisabled,
 }) => {
   const renderInputsByComponentType = (controlItem) => {
     let element = null;
@@ -80,6 +81,7 @@ const Form: React.FC<IProps> = ({
           <Textarea
             id={controlItem.name}
             name={controlItem.name}
+            // value
             placeholder={controlItem.placeholder}
             onChange={(event) =>
               setFormData({
@@ -121,7 +123,7 @@ const Form: React.FC<IProps> = ({
           </div>
         ))}
       </div>
-      <Button type="submit" className="mt-2 w-full">
+      <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full">
         {buttonText || "Submit"}
       </Button>
     </form>
