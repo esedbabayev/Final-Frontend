@@ -68,13 +68,9 @@ export const adminProductSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
-        console.log(action.payload);
-
-        (state.isLoading = false), (state.products = action.payload);
+        (state.isLoading = false), (state.products = action.payload.data);
       })
       .addCase(getAllProducts.rejected, (state, action) => {
-        console.log(action.payload);
-
         (state.isLoading = false), (state.products = []);
       });
   },
