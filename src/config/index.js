@@ -100,3 +100,11 @@ export const productFormElements = [
     placeholder: "Enter total stock",
   },
 ];
+
+export const  headerMenuItems = [
+  {
+    id: "home",
+    label: "Home",
+    path: "/shop/home"
+  }
+]
