@@ -101,10 +101,35 @@ export const productFormElements = [
   },
 ];
 
-export const  headerMenuItems = [
+export const headerMenuItems = [
   {
     id: "home",
     label: "Home",
-    path: "/shop/home"
-  }
-]
+    path: "/shop/home",
+  },
+  {
+    id: "men",
+    label: "Men",
+    path: "/shop/product-listing",
+  },
+  {
+    id: "women",
+    label: "Women",
+    path: "/shop/product-listing",
+  },
+  {
+    id: "kids",
+    label: "Kids",
+    path: "/shop/product-listing",
+  },
+  {
+    id: "accessories",
+    label: "Accessories",
+    path: "/shop/product-listing",
+  },
+  {
+    id: "footwear",
+    label: "Footwear",
+    path: "/shop/product-listing",
+  },
+];
