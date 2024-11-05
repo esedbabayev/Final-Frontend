@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { headerMenuItems } from "@/config/index.js";
+import { logout } from "@/store/slices/auth-slice.js";
 
 // Hooks
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Components
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -10,12 +11,14 @@ import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
 // Icons
-import { House, Menu, ShoppingCart } from "lucide-react";
+import { House, LogOut, Menu, ShoppingCart, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 
 console.log(headerMenuItems[0]);
@@ -35,6 +38,15 @@ const HeaderItems = () => {
 };
 
 const HeaderRightContent = () => {
+  const { user } = useSelector((state) => state.auth);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+
   return (
     <div className="flex flex-col gap-4 lg:items-center lg:flex-row">
       <Button variant={"outline"} size={"icon"}>
@@ -44,12 +56,22 @@ const HeaderRightContent = () => {
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black">
             <AvatarFallback className="bg-black text-white font-extrabold uppercase">
-              AB
+              {user?.userName[0]}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="right" className="w-56">
-          <DropdownMenuLabel>Logged in as</DropdownMenuLabel>
+          <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+            <User className="mr-2 h-4 w-4" />
+            Account
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={logoutHandler}>
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
@@ -60,7 +82,6 @@ const Header = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   console.log(isAuthenticated, user, "isAuthenticated, user");
-  
 
   return (
     <header className="sticky top-0 z-40 border-b">
@@ -77,16 +98,15 @@ const Header = () => {
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-xs">
             <HeaderItems />
+            <HeaderRightContent />
           </SheetContent>
         </Sheet>
         <div className="hidden lg:block">
           <HeaderItems />
         </div>
-        {isAuthenticated ? (
-          <div>
-            <HeaderRightContent />
-          </div>
-        ) : null}
+        <div className="hidden lg:block">
+          <HeaderRightContent />
+        </div>
       </div>
     </header>
   );
