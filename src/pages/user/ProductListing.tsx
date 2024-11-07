@@ -1,3 +1,10 @@
+// Hooks
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+// Actions
+import { getAllFilteredProducts } from "@/store/user/products.slice.js";
+
 // Components
 import Filter from "@/components/user/Filter";
 import { Button } from "@/components/ui/button";
@@ -15,6 +22,16 @@ import { ArrowUpDownIcon } from "lucide-react";
 import { sortOptions } from "@/config/index.js";
 
 const ProductListing = () => {
+  const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.userProducts);
+
+  console.log(products, "products");
+
+  // Fetch products
+  useEffect(() => {
+    dispatch(getAllFilteredProducts());
+  }, [dispatch]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
       <Filter />
@@ -46,9 +63,7 @@ const ProductListing = () => {
             </DropdownMenu>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-
-        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4"></div>
       </div>
     </div>
   );
