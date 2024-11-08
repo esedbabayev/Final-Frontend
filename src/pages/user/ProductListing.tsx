@@ -25,6 +25,7 @@ import { ArrowUpDownIcon } from "lucide-react";
 
 import { sortOptions } from "@/config/index.js";
 import UserProducts from "@/components/user/Products";
+import ProductDetails from "@/components/user/ProductDetails";
 
 const createSearchParamsHelper = (filterParams) => {
   const queryParams = [];
@@ -52,6 +53,8 @@ const ProductListing = () => {
   const [sort, setSort] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [openDetail, setOpenDetail] = useState(false);
 
   console.log(productDetails, "productDetails");
 
@@ -108,6 +111,10 @@ const ProductListing = () => {
       );
   }, [dispatch, sort, filters]);
 
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetail(true);
+  }, [productDetails]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <Filter filters={filters} filterHandler={filterHandler} />
@@ -159,6 +166,11 @@ const ProductListing = () => {
             : null}
         </div>
       </div>
+      <ProductDetails
+        open={openDetail}
+        setOpen={setOpenDetail}
+        productDetails={productDetails}
+      />
     </div>
   );
 };
