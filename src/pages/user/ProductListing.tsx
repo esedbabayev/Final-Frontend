@@ -1,10 +1,13 @@
 // Hooks
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSearchParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 // Actions
-import { getAllFilteredProducts } from "@/store/user/products.slice.js";
+import {
+  getAllFilteredProducts,
+  getProductDetails,
+} from "@/store/user/products.slice.js";
 
 // Components
 import Filter from "@/components/user/Filter";
@@ -41,14 +44,16 @@ const createSearchParamsHelper = (filterParams) => {
 
 const ProductListing = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.userProducts);
+  const { products, productDetails } = useSelector(
+    (state) => state.userProducts
+  );
 
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // console.log(products, "products");
+  console.log(productDetails, "productDetails");
 
   const sortHandler = (value) => {
     console.log(value, "value");
@@ -76,7 +81,12 @@ const ProductListing = () => {
     setFilters(copyFilters);
     localStorage.setItem("filters", JSON.stringify(copyFilters));
   };
-  console.log(filters, searchParams, "filters");
+  // console.log(filters, searchParams, "filters");
+
+  const getProductDetailsHandler = (productId) => {
+    console.log(productId);
+    dispatch(getProductDetails(productId));
+  };
 
   useEffect(() => {
     setSort("price-lowtohigh");
@@ -92,8 +102,11 @@ const ProductListing = () => {
 
   // Fetch products
   useEffect(() => {
-    dispatch(getAllFilteredProducts());
-  }, [dispatch]);
+    if (filters !== null && sort !== null)
+      dispatch(
+        getAllFilteredProducts({ filterParams: filters, sortParams: sort })
+      );
+  }, [dispatch, sort, filters]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -135,7 +148,13 @@ const ProductListing = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {products && products.length > 0
             ? products.map((product) => {
-                return <UserProducts key={product?._id} product={product} />;
+                return (
+                  <UserProducts
+                    key={product?._id}
+                    product={product}
+                    getProductDetailsHandler={getProductDetailsHandler}
+                  />
+                );
               })
             : null}
         </div>
