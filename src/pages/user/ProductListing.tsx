@@ -1,6 +1,7 @@
 // Hooks
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSearchParams, useSearchParams } from "react-router-dom";
 
 // Actions
 import { getAllFilteredProducts } from "@/store/user/products.slice.js";
@@ -22,12 +23,30 @@ import { ArrowUpDownIcon } from "lucide-react";
 import { sortOptions } from "@/config/index.js";
 import UserProducts from "@/components/user/Products";
 
+const createSearchParamsHelper = (filterParams) => {
+  const queryParams = [];
+
+  for (const [key, value] of Object.entries(filterParams)) {
+    if (Array.isArray(value) && value.length > 0) {
+      const paramValue = value.join(",");
+
+      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+    }
+  }
+
+  console.log(queryParams, "queryParams");
+
+  return queryParams.join("&");
+};
+
 const ProductListing = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.userProducts);
 
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // console.log(products, "products");
 
@@ -57,12 +76,19 @@ const ProductListing = () => {
     setFilters(copyFilters);
     localStorage.setItem("filters", JSON.stringify(copyFilters));
   };
-  console.log(filters, "filters");
+  console.log(filters, searchParams, "filters");
 
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(localStorage.getItem("filters")) || {});
   }, []);
+
+  useEffect(() => {
+    if (filters && Object.keys(filters).length > 0) {
+      const createQueryString = createSearchParamsHelper(filters);
+      setSearchParams(new URLSearchParams(createQueryString));
+    }
+  }, [filters]);
 
   // Fetch products
   useEffect(() => {
