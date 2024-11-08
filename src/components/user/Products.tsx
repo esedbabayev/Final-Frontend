@@ -14,7 +14,9 @@ const UserProducts = ({ product }) => {
             className="w-full h-[300px] object-cover rounded-t-lg"
           />
           {product?.salePrice > 0 ? (
-            <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600"></Badge>
+            <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
+              On sale
+            </Badge>
           ) : (
             ""
           )}
@@ -22,8 +24,12 @@ const UserProducts = ({ product }) => {
         <CardContent className="p-4">
           <h2 className="font-bold text-xl mb-2">{product?.title}</h2>
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-gray-600">{product?.category}</span>
-            <span className="text-sm text-gray-600">{product?.brand}</span>
+            <span className="text-lg text-gray-600 capitalize">
+              {product?.category}
+            </span>
+            <span className="text-lg text-gray-600 capitalize">
+              {product?.brand}
+            </span>
           </div>
           <div className="flex justify-between items-center mb-2">
             <span
@@ -31,17 +37,17 @@ const UserProducts = ({ product }) => {
                 product?.salePrice > 0 ? "line-through" : ""
               } text-lg font-semibold text-primary`}
             >
-              {product?.price}
+              ${product?.price}
             </span>
             {product?.salePrice > 0 ? (
               <span className="text-sm text-gray-600">
-                {product?.salePrice}
+                ${product?.salePrice}
               </span>
             ) : null}
           </div>
         </CardContent>
         <CardFooter>
-            <Button className="w-full">Add to cart</Button>
+          <Button className="w-full">Add to cart</Button>
         </CardFooter>
       </div>
     </Card>
