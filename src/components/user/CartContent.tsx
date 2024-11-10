@@ -2,7 +2,10 @@
 import { useDispatch, useSelector } from "react-redux";
 
 // Actions
-import { removeCartItem } from "@/store/user/cart.slice.js";
+import {
+  removeCartItem,
+  updateCartItemQuantity,
+} from "@/store/user/cart.slice.js";
 
 // Components
 import { Button } from "../ui/button";
@@ -19,6 +22,20 @@ const CartItemsContent = ({ cartItem }) => {
       removeCartItem({ userId: user?.id, productId: cartItem?.productId })
     );
   };
+
+  const updateQuantityHandler = (cartItem, actionType: string) => {
+    console.log(cartItem);
+    dispatch(
+      updateCartItemQuantity({
+        userId: user?.id,
+        productId: cartItem?.productId,
+        quantity:
+          actionType === "plus"
+            ? cartItem?.quantity + 1
+            : cartItem?.quantity - 1,
+      })
+    );
+  };
   return (
     <div className="flex items-center space-x-4">
       <img
@@ -33,6 +50,8 @@ const CartItemsContent = ({ cartItem }) => {
             variant={"outline"}
             size={"icon"}
             className="w-8 h-8 rounded-full"
+            disabled={cartItem?.quantity === 1}
+            onClick={() => updateQuantityHandler(cartItem, "minus")}
           >
             <Minus className="w-4 h-4" />
           </Button>
@@ -41,6 +60,7 @@ const CartItemsContent = ({ cartItem }) => {
             variant={"outline"}
             size={"icon"}
             className="w-8 h-8 rounded-full"
+            onClick={() => updateQuantityHandler(cartItem, "plus")}
           >
             <Plus className="w-4 h-4" />
           </Button>
