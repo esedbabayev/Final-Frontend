@@ -9,6 +9,8 @@ import {
   getProductDetails,
 } from "@/store/user/products.slice.js";
 
+import { addToCart, getCartItems } from "@/store/user/cart.slice.js";
+
 // Components
 import Filter from "@/components/user/Filter";
 import { Button } from "@/components/ui/button";
@@ -26,6 +28,7 @@ import { ArrowUpDownIcon } from "lucide-react";
 import { sortOptions } from "@/config/index.js";
 import UserProducts from "@/components/user/Products";
 import ProductDetails from "@/components/user/ProductDetails";
+import { useToast } from "@/hooks/use-toast";
 
 const createSearchParamsHelper = (filterParams) => {
   const queryParams = [];
@@ -48,6 +51,7 @@ const ProductListing = () => {
   const { products, productDetails } = useSelector(
     (state) => state.userProducts
   );
+  const { user } = useSelector((state) => state.auth);
 
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
@@ -55,6 +59,8 @@ const ProductListing = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [openDetail, setOpenDetail] = useState(false);
+
+  const { toast } = useToast();
 
   console.log(productDetails, "productDetails");
 
@@ -87,8 +93,21 @@ const ProductListing = () => {
   // console.log(filters, searchParams, "filters");
 
   const getProductDetailsHandler = (productId) => {
-    console.log(productId);
     dispatch(getProductDetails(productId));
+  };
+
+  const addToCartHandler = (productId) => {
+    console.log(user, "user");
+    dispatch(addToCart({ userId: user?.id, productId, quantity: 1 })).then(
+      (data) => {
+        if (data?.payload?.success) {
+          dispatch(getCartItems(user?.id));
+          toast({
+            title: data?.payload?.message,
+          });
+        }
+      }
+    );
   };
 
   useEffect(() => {
@@ -160,6 +179,7 @@ const ProductListing = () => {
                     key={product?._id}
                     product={product}
                     getProductDetailsHandler={getProductDetailsHandler}
+                    addToCartHandler={addToCartHandler}
                   />
                 );
               })
