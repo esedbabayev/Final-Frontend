@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 // Actions
 import {
@@ -28,7 +29,6 @@ import { ArrowUpDownIcon } from "lucide-react";
 import { sortOptions } from "@/config/index.js";
 import UserProducts from "@/components/user/Products";
 import ProductDetails from "@/components/user/ProductDetails";
-import { useToast } from "@/hooks/use-toast";
 
 const createSearchParamsHelper = (filterParams) => {
   const queryParams = [];
