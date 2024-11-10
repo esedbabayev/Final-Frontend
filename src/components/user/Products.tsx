@@ -3,7 +3,11 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 
-const UserProducts = ({ product, getProductDetailsHandler }) => {
+const UserProducts = ({
+  product,
+  getProductDetailsHandler,
+  addToCartHandler,
+}) => {
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div onClick={() => getProductDetailsHandler(product?._id)}>
@@ -46,10 +50,15 @@ const UserProducts = ({ product, getProductDetailsHandler }) => {
             ) : null}
           </div>
         </CardContent>
-        <CardFooter>
-          <Button className="w-full">Add to cart</Button>
-        </CardFooter>
       </div>
+      <CardFooter>
+        <Button
+          onClick={() => addToCartHandler(product?._id)}
+          className="w-full"
+        >
+          Add to cart
+        </Button>
+      </CardFooter>
     </Card>
   );
 };
