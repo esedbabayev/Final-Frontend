@@ -1,12 +1,39 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
+
+// Actions
+import { addToCart, getCartItems } from "@/store/user/cart.slice.js";
+
 // Components
-import { StarIcon } from "lucide-react";
-import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 
+// Icons
+import { StarIcon } from "lucide-react";
+
 const ProductDetails = ({ open, setOpen, productDetails }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+  const { toast } = useToast();
+
+  const addToCartHandler = (productId) => {
+    console.log(user, "user");
+    dispatch(addToCart({ userId: user?.id, productId, quantity: 1 })).then(
+      (data) => {
+        if (data?.payload?.success) {
+          dispatch(getCartItems(user?.id));
+          toast({
+            title: data?.payload?.message,
+          });
+        }
+      }
+    );
+  };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="grid grid-cols-2 gap-8 max-w-[90vw] sm:p-12 sm:max-w-[80vw] lg:max-w-[70vw]">
@@ -51,7 +78,12 @@ const ProductDetails = ({ open, setOpen, productDetails }) => {
             <span className="text-gray-700">(5)</span>
           </div>
           <div className="my-5">
-            <Button className="w-full">Add to cart</Button>
+            <Button
+              onClick={() => addToCartHandler(productDetails?._id)}
+              className="w-full"
+            >
+              Add to cart
+            </Button>
           </div>
           <Separator />
           <div className="max-h-[300px] overflow-auto">
