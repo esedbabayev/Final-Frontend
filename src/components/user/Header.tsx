@@ -3,10 +3,11 @@ import { headerMenuItems } from "@/config/index.js";
 
 // Actions
 import { logout } from "@/store/slices/auth-slice.js";
+import { getCartItems } from "@/store/user/cart.slice.js";
 
 // Hooks
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Components
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -44,12 +45,18 @@ const HeaderItems = () => {
 const HeaderRightContent = () => {
   const { user } = useSelector((state) => state.auth);
 
+  const { cartItems } = useSelector((state) => state.cart);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
     dispatch(logout());
   };
+
+  useEffect(() => {
+    dispatch(getCartItems(user?.id));
+  }, [dispatch]);
 
   const [openCartSheet, setOpenCartSheet] = useState(false);
 
@@ -63,7 +70,13 @@ const HeaderRightContent = () => {
         >
           <ShoppingCart className="w-6 h-6" />
         </Button>
-        <CartHolder />
+        <CartHolder
+          cartItems={
+            cartItems && cartItems.items && cartItems.items.length > 0
+              ? cartItems.items
+              : []
+          }
+        />
       </Sheet>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
