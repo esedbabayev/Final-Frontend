@@ -112,7 +112,6 @@ const ImageUpload = ({
               onClick={removeImageHandler}
             >
               <XIcon className="w-4 h-4" />
-              <span className="sr-only">Remove File</span>
             </Button>
           </div>
         )}
