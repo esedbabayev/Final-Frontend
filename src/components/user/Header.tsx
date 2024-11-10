@@ -1,9 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { headerMenuItems } from "@/config/index.js";
+
+// Actions
 import { logout } from "@/store/slices/auth-slice.js";
 
 // Hooks
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
 // Components
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -16,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import CartHolder from "./CartHolder";
 
 // Icons
 import { House, LogOut, Menu, ShoppingCart, User } from "lucide-react";
@@ -47,11 +51,20 @@ const HeaderRightContent = () => {
     dispatch(logout());
   };
 
+  const [openCartSheet, setOpenCartSheet] = useState(false);
+
   return (
     <div className="flex flex-col gap-4 lg:items-center lg:flex-row">
-      <Button variant={"outline"} size={"icon"}>
-        <ShoppingCart className="w-6 h-6" />
-      </Button>
+      <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+        <Button
+          onClick={() => setOpenCartSheet(true)}
+          variant={"outline"}
+          size={"icon"}
+        >
+          <ShoppingCart className="w-6 h-6" />
+        </Button>
+        <CartHolder />
+      </Sheet>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black">
