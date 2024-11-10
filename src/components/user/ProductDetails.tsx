@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 
 // Actions
 import { addToCart, getCartItems } from "@/store/user/cart.slice.js";
+import { setProductDetails } from "@/store/user/products.slice.js";
 
 // Components
 import { Button } from "../ui/button";
@@ -34,8 +35,13 @@ const ProductDetails = ({ open, setOpen, productDetails }) => {
       }
     );
   };
+
+  const dialogCloseHandler = () => {
+    setOpen(false);
+    dispatch(setProductDetails());
+  };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={dialogCloseHandler}>
       <DialogContent className="grid grid-cols-2 gap-8 max-w-[90vw] sm:p-12 sm:max-w-[80vw] lg:max-w-[70vw]">
         <div className="relative overflow-hidden rounded-lg">
           <img
