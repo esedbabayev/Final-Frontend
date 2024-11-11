@@ -1,9 +1,39 @@
+// Images
+import accountImage from "@/assets/account.jpg";
+
+// Components
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Orders from "../admin/Orders";
+import Address from "@/components/user/Address";
+
 const Account = () => {
   return (
-    <div>
-      account page
+    <div className="flex flex-col">
+      <div className="relative h-[300px] w-full overflow-hidden">
+        <img
+          src={accountImage}
+          alt="pic"
+          className="h-full w-full object-cover object-center"
+        />
+      </div>
+      <div className="container mx-auto grid grid-cols-1 gap-8 py-8">
+        <div className="flex flex-col rounded-lg border p-6 shadow-sm">
+          <Tabs defaultValue="orders">
+            <TabsList>
+              <TabsTrigger value="orders">Orders</TabsTrigger>
+              <TabsTrigger value="address">Address</TabsTrigger>
+            </TabsList>
+            <TabsContent value="orders">
+              <Orders />
+            </TabsContent>
+            <TabsContent value="address">
+              <Address />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Account
+export default Account;
