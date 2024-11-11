@@ -20,6 +20,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Label } from "../ui/label";
 import CartHolder from "./CartHolder";
 
 // Icons
@@ -29,13 +30,32 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 console.log(headerMenuItems[0]);
 
 const HeaderItems = () => {
+  const navigate = useNavigate();
+
+  const navigateToListingPageHandler = (currentItem) => {
+    localStorage.removeItem("filters");
+
+    const currentFilter =
+      currentItem.id !== "home"
+        ? {
+            category: [currentItem.id],
+          }
+        : null;
+    localStorage.setItem("filters", JSON.stringify(currentFilter));
+    navigate(currentItem.path);
+  };
+
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {headerMenuItems.map((item) => {
         return (
-          <Link to={item.path} className="text-sm font-medium" key={item.id}>
+          <Label
+            className="text-sm font-medium cursor-pointer"
+            key={item.id}
+            onClick={() => navigateToListingPageHandler(item)}
+          >
             {item.label}
-          </Link>
+          </Label>
         );
       })}
     </nav>
