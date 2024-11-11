@@ -10,7 +10,10 @@ const UserProducts = ({
 }) => {
   return (
     <Card className="w-full max-w-sm mx-auto">
-      <div onClick={() => getProductDetailsHandler(product?._id)}>
+      <div
+        className=" cursor-pointer"
+        onClick={() => getProductDetailsHandler(product?._id)}
+      >
         <div className="relative">
           <img
             src={product?.image}
