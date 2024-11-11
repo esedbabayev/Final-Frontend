@@ -1,9 +1,15 @@
 // Hooks
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 // Actions
-import { getAllFilteredProducts } from "@/store/user/products.slice.js";
+import {
+  getAllFilteredProducts,
+  getProductDetails,
+} from "@/store/user/products.slice.js";
+import { addToCart, getCartItems } from "@/store/user/cart.slice.js";
 
 // Banner images
 import BannerOne from "@/assets/banner-1.webp";
@@ -31,7 +37,7 @@ import { SiZara } from "react-icons/si";
 
 // Components
 import UserProducts from "@/components/user/Products";
-import { useNavigate } from "react-router-dom";
+import ProductDetails from "@/components/user/ProductDetails";
 
 const categories = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -56,9 +62,14 @@ const Home = () => {
   const slides = [BannerOne, BannerTwo, BannerThree];
 
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.userProducts);
+  const { products, productDetails } = useSelector((state) => state.userProducts);
+  const { user } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
+
+  const { toast } = useToast();
+
+  const [openDetail, setOpenDetail] = useState(false);
 
   const navigateToListingPageHandler = (currentItem, section: string) => {
     localStorage.removeItem("filters");
@@ -71,10 +82,30 @@ const Home = () => {
     navigate("/shop/product-listing");
   };
 
+  const getProductDetailsHandler = (productId) => {
+    dispatch(getProductDetails(productId));
+  };
+
+  const addToCartHandler = (productId) => {
+    dispatch(addToCart({ userId: user?.id, productId, quantity: 1 })).then(
+      (data) => {
+        if (data?.payload?.success) {
+          dispatch(getCartItems(user?.id));
+          toast({
+            title: data?.payload?.message,
+          });
+        }
+      }
+    );
+  };
+
   const filterParams = {};
   const sortParams = "price-lowtohigh";
 
   // console.log(products, "products");
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetail(true);
+  }, [productDetails]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -87,6 +118,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getAllFilteredProducts(filterParams, sortParams));
   }, [dispatch]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
@@ -154,9 +186,7 @@ const Home = () => {
               <Card
                 key={brand.id}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() =>
-                  navigateToListingPageHandler(brand, "brand")
-                }
+                onClick={() => navigateToListingPageHandler(brand, "brand")}
               >
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <brand.icon className="w-12 h-12 mb-4 text-primary" />
@@ -176,12 +206,22 @@ const Home = () => {
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {products && products.length > 0
               ? products?.map((product) => (
-                  <UserProducts key={product?.id} product={product} />
+                  <UserProducts
+                    key={product?.id}
+                    product={product}
+                    addToCartHandler={addToCartHandler}
+                    getProductDetailsHandler={getProductDetailsHandler}
+                  />
                 ))
               : null}
           </div>
         </div>
       </section>
+      <ProductDetails
+        open={openDetail}
+        setOpen={setOpenDetail}
+        productDetails={productDetails}
+      />
     </div>
   );
 };
