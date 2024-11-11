@@ -65,11 +65,11 @@ const ProductDetails = ({ open, setOpen, productDetails }) => {
                 productDetails?.salePrice > 0 ? "line-through" : ""
               }`}
             >
-              {productDetails?.price}
+              ${productDetails?.price}
             </p>
             {productDetails?.salePrice > 0 ? (
               <p className="text-2xl font-bold text-gray-500">
-                {productDetails?.salePrice}
+                ${productDetails?.salePrice}
               </p>
             ) : null}
           </div>
