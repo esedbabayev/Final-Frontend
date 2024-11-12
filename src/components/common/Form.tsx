@@ -1,25 +1,29 @@
 // Types
-import { IControls } from "../../types/formControls.ts";
-import { Button } from "../ui/button.tsx";
+import { IControls } from "../../types/formControls";
 
 // Components
-import { Input } from "../ui/input.tsx";
-import { Label } from "../ui/label.tsx";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select.tsx";
-import { Textarea } from "../ui/textarea.tsx";
+} from "../ui/select";
+import { Textarea } from "../ui/textarea";
 
 interface IProps {
-  IControls: Object;
-
+  formControls: IControls[]; 
+  formData: { [key: string]: any }; 
+  setFormData: React.Dispatch<React.SetStateAction<{ [key: string]: any }>>; 
+  onSubmit: (event: React.FormEvent) => void; 
   buttonText: string;
+  isBtnDisabled?: boolean; 
 }
 
+// Component
 const Form: React.FC<IProps> = ({
   formControls,
   formData,
@@ -28,7 +32,7 @@ const Form: React.FC<IProps> = ({
   buttonText,
   isBtnDisabled,
 }) => {
-  const renderInputsByComponentType = (controlItem) => {
+  const renderInputsByComponentType = (controlItem: IControls) => {
     let element = null;
     const value = formData[controlItem.name] || "";
 
@@ -81,8 +85,8 @@ const Form: React.FC<IProps> = ({
           <Textarea
             id={controlItem.name}
             name={controlItem.name}
-            // value
             placeholder={controlItem.placeholder}
+            value={value}
             onChange={(event) =>
               setFormData({
                 ...formData,
@@ -92,7 +96,6 @@ const Form: React.FC<IProps> = ({
           />
         );
         break;
-
       default:
         element = (
           <Input
@@ -113,6 +116,7 @@ const Form: React.FC<IProps> = ({
     }
     return element;
   };
+
   return (
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-3">
