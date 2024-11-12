@@ -1,9 +1,14 @@
+// Hooks
+import { useNavigate } from "react-router-dom";
+
 // Components
 import { Button } from "../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import CartItemsContent from "./CartContent";
 
-const CartHolder = ({ cartItems }) => {
+const CartHolder = ({ cartItems, setOpenCartSheet }) => {
+  const navigate = useNavigate();
+
   const totalAmount =
     cartItems && cartItems.length > 0
       ? cartItems.reduce(
@@ -35,7 +40,15 @@ const CartHolder = ({ cartItems }) => {
           <span className="font-bold">${totalAmount}</span>
         </div>
       </div>
-      <Button className="w-full mt-6">Checkout</Button>
+      <Button
+        onClick={() => {
+          navigate("/shop/checkout");
+          setOpenCartSheet(false);
+        }}
+        className="w-full mt-6"
+      >
+        Checkout
+      </Button>
     </SheetContent>
   );
 };
