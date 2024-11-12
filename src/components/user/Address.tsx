@@ -60,8 +60,8 @@ const Address: React.FC = () => {
   const manageAddressHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (addressList.length >= 3) {
-      setFormData(initialAddressFormData)
+    if (addressList.length >= 3 && currentEditedId === null) {
+      setFormData(initialAddressFormData);
       toast({
         title: "Maximum of 3 addresses can be added",
         variant: "destructive",
@@ -145,7 +145,7 @@ const Address: React.FC = () => {
 
   return (
     <Card>
-      <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+      <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
         {addressList && addressList.length > 0
           ? addressList.map((addressItem, index: number) => (
               <AddressCard
