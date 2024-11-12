@@ -59,10 +59,9 @@ export const addressSlice = createSlice({
       })
       .addCase(addAddress.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.addressList = action?.payload?.data;
       })
       .addCase(addAddress.rejected, (state) => {
-        (state.isLoading = false), (state.addressList = []);
+        state.isLoading = false;
       })
       .addCase(getAllAddresses.pending, (state) => {
         state.isLoading = true;
@@ -73,7 +72,7 @@ export const addressSlice = createSlice({
       })
       .addCase(getAllAddresses.rejected, (state) => {
         (state.isLoading = false), (state.addressList = []);
-      })
+      });
     //   .addCase(editAddress.pending, (state) => {
     //     state.isLoading = true;
     //   })
