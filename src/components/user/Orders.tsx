@@ -1,8 +1,23 @@
+// Hooks
+import { useState } from "react";
+
 // Components
+import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Table, TableHead, TableHeader, TableRow } from "../ui/table";
+import { Dialog } from "../ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import UserOrderDetails from "./OrderDetails";
 
 const Orders = () => {
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+
   return (
     <Card>
       <CardHeader>
@@ -18,6 +33,25 @@ const Orders = () => {
               <TableHead>Order Price</TableHead>
             </TableRow>
           </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>123456</TableCell>
+              <TableCell>13/11/2024</TableCell>
+              <TableCell>In process</TableCell>
+              <TableCell>$1000</TableCell>
+              <TableCell>
+                <Dialog
+                  open={openDetailsDialog}
+                  onOpenChange={setOpenDetailsDialog}
+                >
+                  <Button onClick={() => setOpenDetailsDialog(true)}>
+                    View Details
+                  </Button>
+                  <UserOrderDetails />
+                </Dialog>
+              </TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
       </CardContent>
     </Card>

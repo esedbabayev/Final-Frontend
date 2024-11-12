@@ -1,8 +1,9 @@
+import AdminOrders from "@/components/admin/Orders"
 
 const Orders = () => {
   return (
     <div>
-        orders
+        <AdminOrders />
     </div>
   )
 }
