@@ -3,8 +3,8 @@ import accountImage from "@/assets/account.jpg";
 
 // Components
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Orders from "../admin/Orders";
 import Address from "@/components/user/Address";
+import Orders from "@/components/user/Orders";
 
 const Account = () => {
   return (
