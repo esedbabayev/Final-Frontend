@@ -27,7 +27,7 @@ import CartHolder from "./CartHolder";
 import { House, LogOut, Menu, ShoppingCart, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 
-console.log(headerMenuItems[0]);
+// console.log(headerMenuItems[0]);
 
 const HeaderItems = () => {
   const navigate = useNavigate();
@@ -91,6 +91,7 @@ const HeaderRightContent = () => {
           <ShoppingCart className="w-6 h-6" />
         </Button>
         <CartHolder
+          setOpenCartSheet={setOpenCartSheet}
           cartItems={
             cartItems && cartItems.items && cartItems.items.length > 0
               ? cartItems.items
