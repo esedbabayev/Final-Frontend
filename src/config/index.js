@@ -176,7 +176,7 @@ export const addressFormControls = [
   },
   {
     label: "Postcode",
-    name: "postcode",
+    name: "postCode",
     componentType: "input",
     type: "text",
     placeholder: "Enter your postcode",
