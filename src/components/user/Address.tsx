@@ -43,7 +43,7 @@ const initialAddressFormData: AddressFormData = {
   notes: "",
 };
 
-const Address: React.FC = () => {
+const Address: React.FC = ({ setCurrentSelectedAddress }) => {
   const [formData, setFormData] = useState<AddressFormData>(
     initialAddressFormData
   );
@@ -141,7 +141,7 @@ const Address: React.FC = () => {
     dispatch(getAllAddresses(user?.id));
   }, [dispatch]);
 
-  console.log(isFormValid(), "isFormValid");
+  // console.log(isFormValid(), "isFormValid");
 
   return (
     <Card>
@@ -153,6 +153,7 @@ const Address: React.FC = () => {
                 addressInfo={addressItem}
                 deleteAddressHandler={deleteAddressHandler}
                 editAddressHandler={editAddressHandler}
+                setCurrentSelectedAddress={setCurrentSelectedAddress}
               />
             ))
           : null}
