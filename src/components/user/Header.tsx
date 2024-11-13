@@ -128,7 +128,7 @@ const HeaderRightContent = () => {
 const Header = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-  console.log(isAuthenticated, user, "isAuthenticated, user");
+  // console.log(isAuthenticated, user, "isAuthenticated, user");
 
   return (
     <header className="sticky top-0 z-40 border-b">

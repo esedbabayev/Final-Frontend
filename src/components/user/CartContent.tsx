@@ -24,7 +24,7 @@ const CartItemsContent = ({ cartItem }) => {
   };
 
   const updateQuantityHandler = (cartItem, actionType: string) => {
-    console.log(cartItem);
+    // console.log(cartItem);
     dispatch(
       updateCartItemQuantity({
         userId: user?.id,
