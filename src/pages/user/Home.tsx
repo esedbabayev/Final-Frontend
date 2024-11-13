@@ -205,9 +205,9 @@ const Home = () => {
           </h2>
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {products && products.length > 0
-              ? products?.map((product) => (
+              ? products?.map((product, index) => (
                   <UserProducts
-                    key={product?.id}
+                    key={index}
                     product={product}
                     addToCartHandler={addToCartHandler}
                     getProductDetailsHandler={getProductDetailsHandler}
