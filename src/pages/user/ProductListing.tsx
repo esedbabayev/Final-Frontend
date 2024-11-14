@@ -62,6 +62,8 @@ const ProductListing = () => {
 
   const { toast } = useToast();
 
+  const categorySearchParam = searchParams.get("category");
+
   console.log(productDetails, "productDetails");
 
   const sortHandler = (value) => {
@@ -113,7 +115,7 @@ const ProductListing = () => {
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(localStorage.getItem("filters")) || {});
-  }, []);
+  }, [categorySearchParam]);
 
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
