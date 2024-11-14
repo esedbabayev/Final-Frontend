@@ -1,6 +1,14 @@
 // Hooks
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
+
+// Actions
+import {
+  updateOrderStatus,
+  getOrderDetailsForAdmin,
+  getAllOrdersForAdmin,
+} from "@/store/admin/order.slice.js";
 
 // Components
 import Form from "../common/Form";
@@ -18,8 +26,30 @@ const AdminOrderDetails = ({ orderDetails }) => {
 
   const { user } = useSelector((state) => state.auth);
 
+  const dispatch = useDispatch();
+
+  const { toast } = useToast();
+
   const updateStatusHandler = (event) => {
     event.preventDefault();
+
+    console.log(formData, "formData");
+
+    const { status } = formData;
+
+    dispatch(
+      updateOrderStatus({ id: orderDetails?._id, orderStatus: status })
+    ).then((data) => {
+      console.log(data, "data");
+      if (data?.payload?.success) {
+        dispatch(getOrderDetailsForAdmin(orderDetails?._id));
+        dispatch(getAllOrdersForAdmin());
+        setFormData(initialFormData);
+        toast({
+          title: data?.payload?.message,
+        });
+      }
+    });
   };
 
   return (
@@ -53,6 +83,8 @@ const AdminOrderDetails = ({ orderDetails }) => {
                 className={`py-1 px-3 ${
                   orderDetails?.orderStatus === "confirmed"
                     ? "bg-green-500"
+                    : orderDetails?.orderStatus === "rejected"
+                    ? "bg-red-600"
                     : "bg-black"
                 }`}
               >
@@ -115,7 +147,7 @@ const AdminOrderDetails = ({ orderDetails }) => {
             ]}
             formData={formData}
             setFormData={setFormData}
-            buttonText="Update OrderStatus"
+            buttonText="Update Order Status"
             onSubmit={updateStatusHandler}
           />
         </div>
