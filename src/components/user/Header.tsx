@@ -1,4 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { headerMenuItems } from "@/config/index.js";
 
 // Actions
@@ -32,17 +37,24 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 const HeaderItems = () => {
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const navigateToListingPageHandler = (currentItem) => {
     localStorage.removeItem("filters");
 
     const currentFilter =
-      currentItem.id !== "home"
+      currentItem.id !== "home" && currentItem.id !== "products"
         ? {
             category: [currentItem.id],
           }
         : null;
     localStorage.setItem("filters", JSON.stringify(currentFilter));
-    navigate(currentItem.path);
+
+    location.pathname.includes("listing") && currentFilter !== null
+      ? setSearchParams(new URLSearchParams(`?category=${currentItem?.id}`))
+      : navigate(currentItem.path);
   };
 
   return (
