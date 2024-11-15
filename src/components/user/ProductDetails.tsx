@@ -19,10 +19,28 @@ import { StarIcon } from "lucide-react";
 const ProductDetails = ({ open, setOpen, productDetails }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const { toast } = useToast();
 
-  const addToCartHandler = (productId) => {
+  const addToCartHandler = (productId, getTotalStock) => {
+    let obtainCartItems = cartItems.items || [];
+
+    if (obtainCartItems.length) {
+      const indexOfCurrentItem = obtainCartItems.findIndex(
+        (item) => item.productId === productId
+      );
+      if (indexOfCurrentItem > -1) {
+        const getQuantity = obtainCartItems[indexOfCurrentItem].quantity;
+        if (getQuantity + 1 > getTotalStock) {
+          toast({
+            title: `Only quantity of ${getQuantity} can be added for this item`,
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+    }
     console.log(user, "user");
     dispatch(addToCart({ userId: user?.id, productId, quantity: 1 })).then(
       (data) => {
@@ -84,12 +102,23 @@ const ProductDetails = ({ open, setOpen, productDetails }) => {
             <span className="text-gray-700">(5)</span>
           </div>
           <div className="my-5">
-            <Button
-              onClick={() => addToCartHandler(productDetails?._id)}
-              className="w-full"
-            >
-              Add to cart
-            </Button>
+            {productDetails?.totalStock === 0 ? (
+              <Button disabled className="w-full opacity-60 cursor-not-allowed">
+                Out of stock
+              </Button>
+            ) : (
+              <Button
+                onClick={() =>
+                  addToCartHandler(
+                    productDetails?._id,
+                    productDetails?.totalStock
+                  )
+                }
+                className="w-full"
+              >
+                Add to cart
+              </Button>
+            )}
           </div>
           <Separator />
           <div className="max-h-[300px] overflow-auto">

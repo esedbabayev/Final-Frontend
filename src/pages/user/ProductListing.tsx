@@ -52,6 +52,7 @@ const ProductListing = () => {
     (state) => state.userProducts
   );
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
@@ -98,8 +99,27 @@ const ProductListing = () => {
     dispatch(getProductDetails(productId));
   };
 
-  const addToCartHandler = (productId) => {
-    console.log(user, "user");
+  const addToCartHandler = (productId, getTotalStock) => {
+    console.log(cartItems, "cartItems");
+
+    let obtainCartItems = cartItems.items || [];
+
+    if (obtainCartItems.length) {
+      const indexOfCurrentItem = obtainCartItems.findIndex(
+        (item) => item.productId === productId
+      );
+      if (indexOfCurrentItem > -1) {
+        const getQuantity = obtainCartItems[indexOfCurrentItem].quantity;
+        if (getQuantity + 1 > getTotalStock) {
+          toast({
+            title: `Only quantity of ${getQuantity} can be added for this item`,
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+    }
+
     dispatch(addToCart({ userId: user?.id, productId, quantity: 1 })).then(
       (data) => {
         if (data?.payload?.success) {
@@ -135,6 +155,8 @@ const ProductListing = () => {
   useEffect(() => {
     if (productDetails !== null) setOpenDetail(true);
   }, [productDetails]);
+
+  console.log(products, "products");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
