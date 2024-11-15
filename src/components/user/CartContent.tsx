@@ -1,5 +1,6 @@
 // Hooks
 import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
 
 // Actions
 import {
@@ -16,6 +17,10 @@ import { Minus, Plus, Trash } from "lucide-react";
 const CartItemsContent = ({ cartItem }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.userProducts);
+
+  const { toast } = useToast();
 
   const removeCartItemHandler = (cartItem) => {
     dispatch(
@@ -24,6 +29,35 @@ const CartItemsContent = ({ cartItem }) => {
   };
 
   const updateQuantityHandler = (cartItem, actionType: string) => {
+    if (actionType === "plus") {
+      let getCartItems = cartItems.items || [];
+
+      if (getCartItems.length) {
+        const indexOfCurrentCartItem = getCartItems.findIndex(
+          (item) => item.productId === cartItem?.productId
+        );
+
+        const getCurrentProductIndex = products.findIndex(
+          (product) => product._id === cartItem?.productId
+        );
+        const getTotalStock = products[getCurrentProductIndex].totalStock;
+
+        console.log(getCurrentProductIndex, getTotalStock, "getTotalStock");
+
+        if (indexOfCurrentCartItem > -1) {
+          const getQuantity = getCartItems[indexOfCurrentCartItem].quantity;
+          if (getQuantity + 1 > getTotalStock) {
+            toast({
+              title: `Only ${getQuantity} quantity can be added for this item`,
+              variant: "destructive",
+            });
+
+            return;
+          }
+        }
+      }
+    }
+
     // console.log(cartItem);
     dispatch(
       updateCartItemQuantity({
