@@ -45,7 +45,9 @@ const HeaderItems = () => {
     localStorage.removeItem("filters");
 
     const currentFilter =
-      currentItem.id !== "home" && currentItem.id !== "products"
+      currentItem.id !== "home" &&
+      currentItem.id !== "products" &&
+      currentItem.id !== "search"
         ? {
             category: [currentItem.id],
           }
