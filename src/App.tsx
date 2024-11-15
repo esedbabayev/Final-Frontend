@@ -20,6 +20,7 @@ import Checkout from "./pages/user/Checkout";
 import Account from "./pages/user/Account";
 import PaypalReturn from "./pages/user/PaypalReturn";
 import PaymentSuccess from "./pages/user/PaymentSuccess";
+import Search from "./pages/user/Search";
 
 // Check Auth
 import CheckAuth from "./components/common/CheckAuth";
@@ -89,6 +90,7 @@ function App() {
           <Route path="account" element={<Account />} />
           <Route path="paypal-return" element={<PaypalReturn />} />
           <Route path="payment-success" element={<PaymentSuccess />} />
+          <Route path="search" element={<Search />} />
         </Route>
         {/* not found route */}
         <Route path="*" element={<NotFound />} />
