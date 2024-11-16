@@ -9,6 +9,7 @@ import { cartSlice } from "./user/cart.slice.js";
 import { addressSlice } from "./user/address.slice.js";
 import { orderSlice } from "./user/order.slice.js";
 import { searchSlice } from "./user/search.slice.js";
+import { reviewSlice } from "./user/review.slice.js";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     address: addressSlice.reducer,
     order: orderSlice.reducer,
     search: searchSlice.reducer,
+    review: reviewSlice.reducer,
   },
 });
 
