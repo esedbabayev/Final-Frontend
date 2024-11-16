@@ -43,7 +43,7 @@ const initialAddressFormData: AddressFormData = {
   notes: "",
 };
 
-const Address: React.FC = ({ setCurrentSelectedAddress }) => {
+const Address: React.FC = ({ setCurrentSelectedAddress, selectedId }) => {
   const [formData, setFormData] = useState<AddressFormData>(
     initialAddressFormData
   );
@@ -154,6 +154,7 @@ const Address: React.FC = ({ setCurrentSelectedAddress }) => {
                 deleteAddressHandler={deleteAddressHandler}
                 editAddressHandler={editAddressHandler}
                 setCurrentSelectedAddress={setCurrentSelectedAddress}
+                selectedId={selectedId}
               />
             ))
           : null}
