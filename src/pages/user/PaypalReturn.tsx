@@ -29,9 +29,9 @@ const PaypalReturn = () => {
   }, [paymentId, payerId, dispatch]);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Processing Payment...</CardTitle>
+    <Card className="p-10">
+      <CardHeader className="p-0">
+        <CardTitle className="text-4xl">Processing Payment...</CardTitle>
       </CardHeader>
     </Card>
   );
