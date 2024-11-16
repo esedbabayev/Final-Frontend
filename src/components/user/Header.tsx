@@ -104,7 +104,9 @@ const HeaderRightContent = () => {
           className="relative"
         >
           <ShoppingCart className="w-6 h-6" />
-          <span className="absolute top-0 right-0">{cartItems?.items?.length || "0"}</span>
+          <span className="absolute top-[-5px] right-[2px] text-sm font-bold">
+            {cartItems?.items?.length || "0"}
+          </span>
         </Button>
         <CartHolder
           setOpenCartSheet={setOpenCartSheet}
