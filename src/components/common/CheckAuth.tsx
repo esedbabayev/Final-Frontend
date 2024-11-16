@@ -12,6 +12,18 @@ interface IProps {
 const CheckAuth: React.FC<IProps> = ({ isAuthenticated, user, children }) => {
   const location = useLocation();
 
+  if (location.pathname === "/") {
+    if (!isAuthenticated) {
+      return <Navigate to="/auth/sign-in" />;
+    } else {
+      if (user?.role === "admin") {
+        return <Navigate to="/admin/dashboard" />;
+      } else {
+        return <Navigate to="/shop/home" />;
+      }
+    }
+  }
+
   //   isAuthenticated
   if (
     !isAuthenticated &&
