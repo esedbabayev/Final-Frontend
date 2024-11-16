@@ -26,7 +26,7 @@ export const getReviews = createAsyncThunk("/order/getReviews", async (id) => {
   return response.data;
 });
 
-const reviewSlice = createSlice({
+export const reviewSlice = createSlice({
   name: "reviewSlice",
   initialState,
   reducers: {},
@@ -46,4 +46,4 @@ const reviewSlice = createSlice({
   },
 });
 
-export default reviewSlice.reducer;
+export default reviewSlice;
