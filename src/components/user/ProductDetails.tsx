@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 // Actions
 import { addToCart, getCartItems } from "@/store/user/cart.slice.js";
 import { setProductDetails } from "@/store/user/products.slice.js";
+import { addReview } from "@/store/user/review.slice.js";
 
 // Components
 import { Button } from "../ui/button";
@@ -15,13 +16,37 @@ import { Input } from "../ui/input";
 
 // Icons
 import { StarIcon } from "lucide-react";
+import { Label } from "../ui/label";
+import StarRating from "../common/StarRating";
 
 const ProductDetails = ({ open, setOpen, productDetails }) => {
+  const [reviewMsg, setReviewMsg] = useState("");
+  const [rating, setRating] = useState(0);
+
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
 
   const { toast } = useToast();
+
+  const ratingChangeHandler = (getRating) => {
+    setRating(getRating);
+  };
+
+  const addReviewHandler = () => {
+    dispatch(
+      addReview({
+        productId: productDetails?._id,
+        userId: user?.id,
+        userName: user?.userName,
+        reviewMessage: reviewMsg,
+        reviewValue: rating,
+      })
+    ).then(data=> {
+      console.log(data);
+      
+    })
+  };
 
   const addToCartHandler = (productId, getTotalStock) => {
     let obtainCartItems = cartItems.items || [];
@@ -144,9 +169,26 @@ const ProductDetails = ({ open, setOpen, productDetails }) => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-2 mt-6">
-              <Input placeholder="Write a review" />
-              <Button>Submit</Button>
+            <div className="flex flex-col gap-2 mt-10">
+              <Label>Write a review</Label>
+              <div className="flex gap-1">
+                <StarRating
+                  rating={rating}
+                  ratingChangeHandler={ratingChangeHandler}
+                />
+              </div>
+              <Input
+                name="reviewMsg"
+                value={reviewMsg}
+                onChange={(event) => setReviewMsg(event.target.value)}
+                placeholder="Write a review"
+              />
+              <Button
+                onClick={addReviewHandler}
+                disabled={reviewMsg.trim() === ""}
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </div>
