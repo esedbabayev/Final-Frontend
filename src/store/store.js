@@ -10,6 +10,7 @@ import { addressSlice } from "./user/address.slice.js";
 import { orderSlice } from "./user/order.slice.js";
 import { searchSlice } from "./user/search.slice.js";
 import { reviewSlice } from "./user/review.slice.js";
+import { featureSlice } from "./admin/feature.slice.js";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     order: orderSlice.reducer,
     search: searchSlice.reducer,
     review: reviewSlice.reducer,
+    feature: featureSlice.reducer,
   },
 });
 
