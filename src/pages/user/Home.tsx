@@ -10,6 +10,10 @@ import {
   getProductDetails,
 } from "@/store/user/products.slice.js";
 import { addToCart, getCartItems } from "@/store/user/cart.slice.js";
+import {
+  addFeatureImage,
+  getFeatureImages,
+} from "@/store/admin/feature.slice.js";
 
 // Banner images
 import BannerOne from "@/assets/banner-1.webp";
@@ -59,11 +63,14 @@ const brands = [
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [BannerOne, BannerTwo, BannerThree];
+  // const slides = [BannerOne, BannerTwo, BannerThree];
 
   const dispatch = useDispatch();
-  const { products, productDetails } = useSelector((state) => state.userProducts);
+  const { products, productDetails } = useSelector(
+    (state) => state.userProducts
+  );
   const { user } = useSelector((state) => state.auth);
+  const { featureImageList } = useSelector((state) => state.feature);
 
   const navigate = useNavigate();
 
@@ -109,36 +116,44 @@ const Home = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [featureImageList]);
 
   useEffect(() => {
     dispatch(getAllFilteredProducts(filterParams, sortParams));
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getFeatureImages());
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
-        {slides.map((slide, index) => (
-          <img
-            key={index}
-            src={slide}
-            alt=""
-            className={`${
-              index === currentSlide ? "opacity-100" : "opacity-0"
-            } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
-          />
-        ))}
+        {featureImageList && featureImageList.length > 0
+          ? featureImageList.map((slide, index) => (
+              <img
+                key={index}
+                src={slide?.image}
+                alt=""
+                className={`${
+                  index === currentSlide ? "opacity-100" : "opacity-0"
+                } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
+              />
+            ))
+          : null}
         <Button
           variant={"outline"}
           size={"icon"}
           className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white"
           onClick={() =>
             setCurrentSlide(
-              (prevSlide) => (prevSlide - 1 + slides.length) % slides.length
+              (prevSlide) =>
+                (prevSlide - 1 + featureImageList.length) %
+                featureImageList.length
             )
           }
         >
@@ -149,7 +164,9 @@ const Home = () => {
           size={"icon"}
           className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white"
           onClick={() =>
-            setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length)
+            setCurrentSlide(
+              (prevSlide) => (prevSlide + 1) % featureImageList.length
+            )
           }
         >
           <ChevronRightIcon className="w-4 h-4" />
