@@ -31,6 +31,7 @@ import CartHolder from "./CartHolder";
 // Icons
 import { House, LogOut, Menu, ShoppingCart, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import Example from "./ToggleDarkMode";
 
 // console.log(headerMenuItems[0]);
 
@@ -96,6 +97,7 @@ const HeaderRightContent = () => {
 
   return (
     <div className="flex flex-col gap-4 lg:items-center lg:flex-row">
+      <Example />
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
         <Button
           onClick={() => setOpenCartSheet(true)}
