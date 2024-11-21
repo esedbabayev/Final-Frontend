@@ -11,6 +11,7 @@ import { orderSlice } from "./user/order.slice.js";
 import { searchSlice } from "./user/search.slice.js";
 import { reviewSlice } from "./user/review.slice.js";
 import { featureSlice } from "./admin/feature.slice.js";
+import { themeSlice } from "./slices/theme.slice.js";
 
 const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
     search: searchSlice.reducer,
     review: reviewSlice.reducer,
     feature: featureSlice.reducer,
+    theme: themeSlice.reducer,
   },
 });
 
