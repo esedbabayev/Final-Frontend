@@ -72,6 +72,9 @@ const Home = () => {
   const { user } = useSelector((state) => state.auth);
   const { featureImageList } = useSelector((state) => state.feature);
 
+  const { theme } = useSelector((state) => state.theme);
+  // const mediaTheme = localStorage.getItem("mediaTheme");
+
   const navigate = useNavigate();
 
   const { toast } = useToast();
@@ -172,7 +175,11 @@ const Home = () => {
           <ChevronRightIcon className="w-4 h-4" />
         </Button>
       </div>
-      <section className="py-12 bg-gray-50">
+      <section
+        className={`py-12  ${
+          theme === "dark" ? "bg-black dark text-white" : "bg-slate-50"
+        }`}
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">
             Shop by category
@@ -195,7 +202,13 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="py-12 bg-gray-50">
+      <section
+        className={`py-12  ${
+          theme === "dark"
+            ? "bg-black dark text-white"
+            : "bg-slate-50 text-balck"
+        }`}
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Shop by brand</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">

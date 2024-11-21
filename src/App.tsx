@@ -26,10 +26,11 @@ import Search from "./pages/user/Search";
 import CheckAuth from "./components/common/CheckAuth";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Actions
 import { checkAuth } from "@/store/slices/auth-slice.js";
+import { setTheme } from "@/store/slices/theme.slice.js";
 
 // Loading Skeleton
 import { Skeleton } from "@/components/ui/skeleton";
@@ -38,16 +39,28 @@ function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
     (state) => state.auth
   );
+  const { theme } = useSelector((state) => state.theme);
+
+  const mediaTheme = localStorage.getItem("mediaTheme");
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
 
+  // useEffect(() => {
+  //   dispatch(setTheme(mediaTheme));
+  // }, [dispatch]);
+
   if (isLoading) return <Skeleton className="w-full h-[600px]" />;
 
   return (
-    <div className="flex flex-col overflow-hidden bg-white">
+    <div
+      className={`flex flex-col overflow-hidden ${
+        theme === "dark" ? "bg-black dark text-white" : "bg-white"
+      }`}
+    >
       {/* auth routes */}
       <Routes>
         <Route
