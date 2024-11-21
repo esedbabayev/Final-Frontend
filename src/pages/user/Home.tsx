@@ -73,7 +73,7 @@ const Home = () => {
   const { featureImageList } = useSelector((state) => state.feature);
 
   const { theme } = useSelector((state) => state.theme);
-  // const mediaTheme = localStorage.getItem("mediaTheme");
+  const mediaTheme = localStorage.getItem("theme");
 
   const navigate = useNavigate();
 
@@ -177,7 +177,7 @@ const Home = () => {
       </div>
       <section
         className={`py-12  ${
-          theme === "dark" ? "bg-black dark text-white" : "bg-slate-50"
+          mediaTheme === "dark" ? "bg-black dark text-white" : "bg-slate-50"
         }`}
       >
         <div className="container mx-auto px-4">
@@ -204,7 +204,7 @@ const Home = () => {
       </section>
       <section
         className={`py-12  ${
-          theme === "dark"
+          mediaTheme === "dark"
             ? "bg-black dark text-white"
             : "bg-slate-50 text-balck"
         }`}
