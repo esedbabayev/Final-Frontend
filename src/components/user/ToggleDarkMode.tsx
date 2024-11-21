@@ -7,8 +7,10 @@ import { setTheme } from "@/store/slices/theme.slice.js";
 const TOGGLE_CLASSES =
   "text-sm font-medium flex items-center gap-2 px-3 md:pl-3 md:pr-3.5 py-3 md:py-1.5 transition-colors relative z-10";
 
+const theme = localStorage.getItem("theme");
+
 const Example = () => {
-  const [selected, setSelected] = useState("light");
+  const [selected, setSelected] = useState(theme);
   return (
     <div
       className={`grid h-[60px] place-content-center px-4 transition-colors ${
@@ -32,7 +34,6 @@ const SliderToggle = ({ selected, setSelected }) => {
         onClick={() => {
           setSelected("light");
           dispatch(setTheme("light"));
-          localStorage.setItem("mediaTheme", JSON.stringify("light"));
         }}
       >
         <FiMoon className="relative z-10 text-lg md:text-sm" />
@@ -45,7 +46,6 @@ const SliderToggle = ({ selected, setSelected }) => {
         onClick={() => {
           setSelected("dark");
           dispatch(setTheme("dark"));
-          localStorage.setItem("mediaTheme", JSON.stringify("dark"));
         }}
       >
         <FiSun className="relative z-10 text-lg md:text-sm" />
