@@ -41,7 +41,7 @@ function App() {
   );
   const { theme } = useSelector((state) => state.theme);
 
-  const mediaTheme = localStorage.getItem("mediaTheme");
+  const mediaTheme = localStorage.getItem("theme");
 
   const dispatch = useDispatch();
 
@@ -58,7 +58,7 @@ function App() {
   return (
     <div
       className={`flex flex-col overflow-hidden ${
-        theme === "dark" ? "bg-black dark text-white" : "bg-white"
+        mediaTheme === "dark" ? "bg-black dark text-white" : "bg-white"
       }`}
     >
       {/* auth routes */}
